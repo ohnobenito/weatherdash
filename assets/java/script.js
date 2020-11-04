@@ -1,9 +1,14 @@
 //WHEN SEARCH BUTTON IS CLICKED
-$("#search-btn").on("click", function(){
+$("#search-btn").on("click", function(event){
+    event.preventDefault();
+    let searchResult = $("#search-term").val();
+    searchResults.push(searchResult);
     displayWeather();
-    
+    renderButtons(); 
+    $("#search-term").val("");
 })
 
+//WHEN SEARCH BUTTON IS CLICKED ADD THE FOLLOWING TO "current-weather" DIV: CITY NAME, DATE, ICON REP. OF WEATHER, TEMP, HUMIDITY, WIND SPEED, AND UV INDEX. COLOR REP OF FAVORABLE, MODERATE, OR SEVERE
 function displayWeather() {
     let city = $("#search-term").val();
     let apiKey = "&appid=663280f624e2f9932dc29f35de7ca316";
@@ -47,12 +52,21 @@ $("#current-weather").prepend(weatherDiv);
 }; 
 
 //ADD SEARCH RESULTS TO ONGOING "past-search" DIV
+let searchResults = [];
 
-//ADD RESULTS AS BUTTONS
+function renderButtons() {
+    $("#past-search").empty();
 
-//WHEN SEARCH BUTTON IS CLICKED, USE INPUT FOR BUTTONS
+    for (let i = 0; i < searchResults.length; i++) {
+        let a = $("<button>");
+        a.addClass("search");
+        a.attr("data-name", searchResults[i]);
+        a.text(searchResults[i]);
+        $("#past-search").append(a);
+    }
+}
 
-//WHEN SEARCH BUTTON IS CLICKED ADD THE FOLLOWING TO "current-weather" DIV: CITY NAME, DATE, ICON REP. OF WEATHER, TEMP, HUMIDITY, WIND SPEED, AND UV INDEX. COLOR REP OF FAVORABLE, MODERATE, OR SEVERE
+
 
 //WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
 
