@@ -1,38 +1,31 @@
+$("#search-btn").on("click", function(){
+    displayWeather();
+})
+function displayWeather() {
+    let city = $("#search-term").val();
+    let apiKey = "&appid=663280f624e2f9932dc29f35de7ca316";
+    let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + apiKey;
 
-//ADD SEARCH RESULTS TO ONGOING "past-search" DIV. 
-let searchResults = [];
-//ADDS RESULTS AS BUTTONS
-function renderButtons() {
-    $("#past-search").empty();
-
-    for (let i = 0; i < searchResults.length; i++) {
-
-        let a = $("<button>");
-        a.addClass("search")
-        a.attr("data-name", searchResults[i]);
-        a.text(searchResults[i]);
-        $("#past-search").append(a);
-    }
+    $.ajax({
+        url: queryUrl,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response)
+        $("#current-weather").text(JSON.stringify(response));
+    })
 }
+
+
+//ADD SEARCH RESULTS TO ONGOING "past-search" DIV
+
+//ADD RESULTS AS BUTTONS
+
 //WHEN SEARCH BUTTON IS CLICKED, USE INPUT FOR BUTTONS
-$("#search-btn").on("click", function(event) {
-    event.preventDefault();
 
-    let searchResult = $("#search-term").val();
-    $("#search-term").val("");
-    searchResults.push(searchResult);
-    renderButtons();
+//WHEN SEARCH BUTTON IS CLICKED ADD THE FOLLOWING TO "current-weather" DIV: CITY NAME, DATE, ICON REP. OF WEATHER, TEMP, HUMIDITY, WIND SPEED, AND UV INDEX. COLOR REP OF FAVORABLE, MODERATE, OR SEVERE
 
-});
-//URL TO OPENWEATHER MAP PLUS API CODE
+//WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
 
-//WILL NEED TO RUN AJAX TO RECEIVE DATA
+//CITY BUTTONS CLICKED = WEATHER LOADS AGAIN
 
-//USE USER INPUT IN SEARCH FIELD FOR "cityName"
-
-//WHEN cityName IS RECEIVED, APPEND WEATHER TO "current-weather" DIV. MUST INCLUDE: CITY NAME, DATE, ICON REPRESENTATION OF WEATHER, THE TEMP, HUMIDITY, WIND SPEED, AND UV INDEX. COLOR REPRESENTATION OF FAVORABLE, MODERATE, OR SEVERE
-
-//WHEN cityName IS RECEIVED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
-
-//IF CITY IS CLICKED THEN INFORMATION LOADS AGAIN.
-//WHEN PAGE IS OPENED, LAST SEARCHED CITY'S FORECAST IS PRESENTED
+//WHEN PAGE IS OPENED, LAST SEARCHED CITY IS DISPLAY
