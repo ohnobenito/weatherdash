@@ -53,6 +53,8 @@ function displayWeather() {
 
 
         $("#current-weather").prepend(weatherDiv);
+
+
         //FOR UV INDEX
         let lat = response.coord.lat;
         let lon = response.coord.lon;
@@ -63,19 +65,45 @@ function displayWeather() {
             method: "GET"
         }).then(function(response){
             console.log(response)
+
             //UV INDEX TO WEATHER DIV
             //ADD COLOR TO REPRESENT SEVERE, MODERATE, FAVORABLE
             let UV = response.value
             let uvIndex = $("<p>").text("UV INDEX: " + UV);
             weatherDiv.append(uvIndex);
-        })
-    })
+        });
+    });
+
+    // FIVE DAY FORECAST
+    //WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
+
     $.ajax({
         url: fiveQueryUrl,
         method: "GET"
     }).then(function(response) {
-        console.log(response)
-    })
+        console.log(response.list);
+
+        let input = response.list;
+        $("#five-day").empty();
+
+        for (let i = 0; i < input.length; i ++) {
+            let tempF = input[i].main.temp;
+            let humidityF = input[i].main.humidity;
+            let dateF = input[i].dt_text;
+            console.log(dateF);
+            console.log(tempF);
+
+            let forecastDiv = $("<div class='forecast'>")
+            let foreDate = $("<h1>").text("date: " + dateF);
+            let foreTemp = $("<p>").text("Temp: " + tempF);
+            let foreHum = $("<p>").text("Humidity: " + humidityF);
+            forecastDiv.append(foreDate);
+            forecastDiv.append(foreTemp);
+            forecastDiv.append(foreHum);
+            $("#five-day").append(forecastDiv);
+            
+        };
+    });
 }; 
 
 //ADD SEARCH RESULTS TO ONGOING "past-search" DIV
@@ -92,10 +120,6 @@ function renderButtons() {
         $("#past-search").append(a);
     }
 }
-
-
-
-//WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
 
 //CITY BUTTONS CLICKED = WEATHER LOADS AGAIN
 
