@@ -13,11 +13,13 @@ function displayWeather() {
     let city = $("#search-term").val();
     let apiKey = "&appid=663280f624e2f9932dc29f35de7ca316";
     let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial"+ apiKey;
-
+    let fiveQueryUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial" + apiKey;
+    
     $.ajax({
         url: queryUrl,
         method: "GET"
     }).then(function (response) {
+        console.log(response)
         //RESPONSE RESULTS
             
             let name = response.name;
@@ -25,13 +27,16 @@ function displayWeather() {
             let humidity = response.main.humidity;
             let wind = response.wind.speed;
             let icon = response.weather[0].icon;
+            let d = Date("MM/DD/YYYY");
             
 
         // BUILDING THE DIV
-        let weatherDiv = $("<div class='weather'>")
+        let weatherDiv = $("<div class='weather'>");
         let h1 = $("<h1>").text(name);  
         weatherDiv.append(h1);
 
+        let dateP = $("<p>").text("Date: " + d);
+        weatherDiv.append(dateP);
         temp = Math.floor(temp);
         let pOne = $("<p>").text("Temp: " + temp);
         weatherDiv.append(pOne);
@@ -47,8 +52,30 @@ function displayWeather() {
         weatherDiv.append(iconIm);
 
 
-$("#current-weather").prepend(weatherDiv);
-})
+        $("#current-weather").prepend(weatherDiv);
+        //FOR UV INDEX
+        let lat = response.coord.lat;
+        let lon = response.coord.lon;
+        let UVqueryUrl= "http://api.openweathermap.org/data/2.5/uvi?lat="+ lat + "&lon=" + lon + "&units=imperial" + apiKey;
+
+        $.ajax({
+            url: UVqueryUrl,
+            method: "GET"
+        }).then(function(response){
+            console.log(response)
+            //UV INDEX TO WEATHER DIV
+            //ADD COLOR TO REPRESENT SEVERE, MODERATE, FAVORABLE
+            let UV = response.value
+            let uvIndex = $("<p>").text("UV INDEX: " + UV);
+            weatherDiv.append(uvIndex);
+        })
+    })
+    $.ajax({
+        url: fiveQueryUrl,
+        method: "GET"
+    }).then(function(response) {
+        console.log(response)
+    })
 }; 
 
 //ADD SEARCH RESULTS TO ONGOING "past-search" DIV
