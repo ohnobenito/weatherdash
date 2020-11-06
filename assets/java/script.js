@@ -4,8 +4,8 @@ $("#search-btn").on("click", function(event){
     let searchResult = $("#search-term").val();
     searchResults.push(searchResult);
     displayWeather();
-    renderButtons(); 
-    $("#search-term").val("");
+    pastSearch(); 
+    $("#search-term").val("");  
 })
 
 //WHEN SEARCH BUTTON IS CLICKED ADD THE FOLLOWING TO "current-weather" DIV: CITY NAME, DATE, ICON REP. OF WEATHER, TEMP, HUMIDITY, WIND SPEED, AND UV INDEX. COLOR REP OF FAVORABLE, MODERATE, OR SEVERE
@@ -20,6 +20,7 @@ function displayWeather() {
         method: "GET"
     }).then(function (response) {
         console.log(response)
+        $("#current-weather").empty();
         //RESPONSE RESULTS
             
             let name = response.name;
@@ -52,7 +53,7 @@ function displayWeather() {
         weatherDiv.append(iconIm);
 
 
-        $("#current-weather").prepend(weatherDiv);
+        $("#current-weather").html(weatherDiv);
 
 
         //FOR UV INDEX
@@ -119,17 +120,20 @@ function displayWeather() {
 //ADD SEARCH RESULTS TO ONGOING "past-search" DIV
 let searchResults = [];
 
-function renderButtons() {
+function pastSearch() {
     $("#past-search").empty();
 
     for (let i = 0; i < searchResults.length; i++) {
         let a = $("<button>");
-        a.addClass("search");
+        a.addClass("past-search-btn");
         a.attr("data-name", searchResults[i]);
         a.text(searchResults[i]);
         $("#past-search").append(a);
     }
 }
+$("#past-search-button").on("click", function(){
+    displayWeather();
+})
 
 //CITY BUTTONS CLICKED = WEATHER LOADS AGAIN
 
