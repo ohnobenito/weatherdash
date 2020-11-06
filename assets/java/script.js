@@ -1,14 +1,21 @@
+
+
 //WHEN SEARCH BUTTON IS CLICKED
 $("#search-btn").on("click", function(event){
     event.preventDefault();
     let searchResult = $("#search-term").val();
     searchResults.push(searchResult);
+    
+    //run display weather function
     displayWeather();
+    // runs past search function
     pastSearch(); 
-    $("#search-term").val("");  
-})
 
-//WHEN SEARCH BUTTON IS CLICKED ADD THE FOLLOWING TO "current-weather" DIV: CITY NAME, DATE, ICON REP. OF WEATHER, TEMP, HUMIDITY, WIND SPEED, AND UV INDEX. COLOR REP OF FAVORABLE, MODERATE, OR SEVERE
+    //clear search bar
+    $("#search-term").val("");  
+});
+
+//LOADS WEATHER TO PAGE
 function displayWeather() {
     let city = $("#search-term").val();
     let apiKey = "&appid=663280f624e2f9932dc29f35de7ca316";
@@ -28,8 +35,7 @@ function displayWeather() {
             let humidity = response.main.humidity;
             let wind = response.wind.speed;
             let icon = response.weather[0].icon;
-            let d = Date("MM/DD/YYYY");
-            
+            let d = new Date(response.dt * 1000).toDateString();
 
         // BUILDING THE DIV
         let weatherDiv = $("<div class='weather'>");
@@ -142,11 +148,8 @@ function pastSearch() {
         a.attr("data-name", searchResults[i]);
         a.text(searchResults[i]);
         $("#past-search").append(a);
-    }
+    }   
 }
-$("#past-search-button").on("click", function(){
-    displayWeather();
-})
 
 //CITY BUTTONS CLICKED = WEATHER LOADS AGAIN
 
