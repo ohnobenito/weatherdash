@@ -50,7 +50,7 @@ function displayWeather() {
         weatherDiv.append(pThree);
 
         let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/w/" + icon + ".png");
-        weatherDiv.append(iconIm);
+        weatherDiv.prepend(iconIm);
 
 
         $("#current-weather").html(weatherDiv);
@@ -68,10 +68,21 @@ function displayWeather() {
             console.log(response)
 
             //UV INDEX TO WEATHER DIV
-            //ADD COLOR TO REPRESENT SEVERE, MODERATE, FAVORABLE
+            
             let UV = response.value
-            let uvIndex = $("<p>").text("UV INDEX: " + UV);
-            weatherDiv.append(uvIndex);
+            //IF ELSE FOR WEATHER INDEX AND THE COLORS THEY REPRESENT
+            if (UV < 3) {
+                let uvIndex = $("<a class='light-green accent-3 btn-small'>").text("UV INDEX: " + UV);
+                weatherDiv.append(uvIndex);
+                
+            } else if (UV > 6) {
+                let uvIndex = $("<a class='red darken-3 btn-small'>").text("UV INDEX: " + UV)
+                weatherDiv.append(uvIndex);
+            } else {
+                let uvIndex = $("<a class='amber darken-3 btn-small'>").text("UV INDEX: " + UV)
+                weatherDiv.append(uvIndex);
+            }
+            
         });
     
 
