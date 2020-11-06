@@ -39,19 +39,18 @@ function displayWeather() {
         let dateP = $("<p>").text("Date: " + d);
         weatherDiv.append(dateP);
         temp = Math.floor(temp);
-        let pOne = $("<p>").text("Temp: " + temp);
+        let pOne = $("<p>").text("Temp: " + temp + "°F");
         weatherDiv.append(pOne);
 
-        let pTwo = $("<p>").text("Humidity: " + humidity);
+        let pTwo = $("<p>").text("Humidity: " + humidity + "%");
         weatherDiv.append(pTwo);
 
         wind = Math.floor(wind);
         let pThree = $("<p>").text("Wind Speed: " + wind + " MPH");
         weatherDiv.append(pThree);
 
-        let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/w/" + icon + ".png");
-        weatherDiv.prepend(iconIm);
-
+        let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/w/" + icon + ".png").append($("<br />"));
+        weatherDiv.append(iconIm);
 
         $("#current-weather").html(weatherDiv);
 
@@ -73,14 +72,17 @@ function displayWeather() {
             //IF ELSE FOR WEATHER INDEX AND THE COLORS THEY REPRESENT
             if (UV < 3) {
                 let uvIndex = $("<a class='light-green accent-3 btn-small'>").text("UV INDEX: " + UV);
-                weatherDiv.append(uvIndex);
+                let buttonP = $("<p>").append(uvIndex);
+                weatherDiv.append(buttonP);
                 
             } else if (UV > 6) {
                 let uvIndex = $("<a class='red darken-3 btn-small'>").text("UV INDEX: " + UV)
-                weatherDiv.append(uvIndex);
+                let buttonP = $("<p>").append(uvIndex);
+                weatherDiv.append(buttonP);
             } else {
                 let uvIndex = $("<a class='amber darken-3 btn-small'>").text("UV INDEX: " + UV)
-                weatherDiv.append(uvIndex);
+                let buttonP = $("<p>").append(uvIndex);
+                weatherDiv.append(buttonP);
             }
             
         });
@@ -113,8 +115,8 @@ function displayWeather() {
             let forecastDiv = $("<div class='forecast'>")
             let foreDate = $("<h3>").text(dateF);
             tempF = Math.floor(tempF);
-            let foreTemp = $("<p>").text("Temp: " + tempF);
-            let foreHum = $("<p>").text("Humidity: " + humidityF);
+            let foreTemp = $("<p>").text("Temp: " + tempF + "°F");
+            let foreHum = $("<p>").text("Humidity: " + humidityF + "%");
             let icon5 = $("<img>").attr("src", "https://openweathermap.org/img/w/" + weathericon + ".png");
         
             forecastDiv.append(foreDate);
