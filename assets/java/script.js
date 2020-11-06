@@ -13,7 +13,7 @@ function displayWeather() {
     let city = $("#search-term").val();
     let apiKey = "&appid=663280f624e2f9932dc29f35de7ca316";
     let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial"+ apiKey;
-    let fiveQueryUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial" + apiKey;
+    
     
     $.ajax({
         url: queryUrl,
@@ -72,38 +72,48 @@ function displayWeather() {
             let uvIndex = $("<p>").text("UV INDEX: " + UV);
             weatherDiv.append(uvIndex);
         });
-    });
+    
 
     // FIVE DAY FORECAST
     //WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
 
-    $.ajax({
+        let fiveQueryUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,current&units=imperial" + apiKey;
+    
+        $.ajax({
         url: fiveQueryUrl,
         method: "GET"
-    }).then(function(response) {
-        console.log(response.list);
+        }).then(function(response) {
+        console.log(response);
 
-        let input = response.list;
+        let input = response.daily
+    
         $("#five-day").empty();
 
-        for (let i = 0; i < input.length; i ++) {
-            let tempF = input[i].main.temp;
-            let humidityF = input[i].main.humidity;
-            let dateF = input[i].dt_text;
+        for (let i = 0; i < input.length - 3; i ++) {
+            let tempF = input[i].temp.day;
+            let humidityF = input[i].humidity;
+            let dateF = new Date(input[i].dt * 1000).toDateString();
+            let weathericon = input[i].weather[0].icon;
+            console.log(weathericon);
             console.log(dateF);
             console.log(tempF);
 
             let forecastDiv = $("<div class='forecast'>")
-            let foreDate = $("<h1>").text("date: " + dateF);
+            let foreDate = $("<h3>").text(dateF);
+            tempF = Math.floor(tempF);
             let foreTemp = $("<p>").text("Temp: " + tempF);
             let foreHum = $("<p>").text("Humidity: " + humidityF);
+            let icon5 = $("<img>").attr("src", "https://openweathermap.org/img/w/" + weathericon + ".png");
+        
             forecastDiv.append(foreDate);
             forecastDiv.append(foreTemp);
             forecastDiv.append(foreHum);
+            forecastDiv.append(icon5);
             $("#five-day").append(forecastDiv);
             
-        };
-    });
+             };
+        }); 
+    }); 
 }; 
 
 //ADD SEARCH RESULTS TO ONGOING "past-search" DIV
