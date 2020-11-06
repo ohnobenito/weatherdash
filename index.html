@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+                
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
       integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
       crossorigin="anonymous"
     />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Manjari:wght@100;400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/style.css" />
@@ -21,22 +25,44 @@
 </head>
 <body>
     <!-- Header-->
-    <div class="jumbotron">
-        <h1> Weather Dashboard</h1>
-    </div>
+    <header>
+        <h1 class="center-align">Weather Dashboard</h1>
+    </header>
+
     <!-- Search Bar-->
-    <div id="search-bar">
-        <label for="search-term">Search Cities</label><br>
-        <input type="text" id="search-term" name="search-term"><button id="search-btn">search</button>
-    </div>
-    <!-- place previous search requests here-->
-    <div id="past-search"></div>
-    <!-- Place current weather in this div-->
-    <div id="current-weather"></div>
-    <!-- Place five day forcast here-->
-    <div id="five-day"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col s3" id="search-bar">
+            <label for="search">Search Cities</label><br>
+              <input type="text" id="search-term" name="search-term">
+              <button id="search-btn">SEARCH</button><br><br>
+              <!-- place previous search requests here-->
+                <div class="row">
+                  <div class="col s3">
+                    <ul id="past-search"></ul>
+                  </div>
+                </div>         
+        </div>
+  
+        <!-- Place current weather in this div-->
+        <div class="col s7 offset-s2" id="current-weather">    
+          <div class="row">
+            <!-- Place five day forcast here-->
+            <div class="col s12" id="five-day"> 
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    
+    
+    
+  
+    
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/java/script.js"></script>
+    
 </body>
 </html>
