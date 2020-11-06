@@ -6,6 +6,7 @@ $("#search-btn").on("click", function(event){
     let searchResult = $("#search-term").val();
     searchResults.push(searchResult);
     
+    
     //run display weather function
     displayWeather();
     // runs past search function
@@ -38,8 +39,8 @@ function displayWeather() {
             let d = new Date(response.dt * 1000).toDateString();
 
         // BUILDING THE DIV
-        let weatherDiv = $("<div class='weather'>");
-        let h1 = $("<h1>").text(name);  
+        let weatherDiv = $("<div class='col s12'>");
+        let h1 = $("<h3>").text(name);  
         weatherDiv.append(h1);
 
         let dateP = $("<p>").text("Date: " + d);
@@ -94,8 +95,8 @@ function displayWeather() {
         });
     
 
-    // FIVE DAY FORECAST
-    //WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
+        // FIVE DAY FORECAST
+        //WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
 
         let fiveQueryUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,current&units=imperial" + apiKey;
     
@@ -118,8 +119,8 @@ function displayWeather() {
             console.log(dateF);
             console.log(tempF);
 
-            let forecastDiv = $("<div class='forecast'>")
-            let foreDate = $("<h3>").text(dateF);
+            let forecastDiv = $("<div class='col s2'>")
+            let foreDate = $("<h5>").text(dateF);
             tempF = Math.floor(tempF);
             let foreTemp = $("<p>").text("Temp: " + tempF + "°F");
             let foreHum = $("<p>").text("Humidity: " + humidityF + "%");
@@ -137,9 +138,11 @@ function displayWeather() {
 }; 
 
 //ADD SEARCH RESULTS TO ONGOING "past-search" DIV
+
 let searchResults = [];
 
 function pastSearch() {
+    
     $("#past-search").empty();
 
     for (let i = 0; i < searchResults.length; i++) {
@@ -152,5 +155,11 @@ function pastSearch() {
 }
 
 //CITY BUTTONS CLICKED = WEATHER LOADS AGAIN
+$(document).on("click", ".past-search-btn", function(event) {
+    event.preventDefault();
+    alert("help!")
+    console.log($(this).text());
+})
+
 
 //WHEN PAGE IS OPENED, LAST SEARCHED CITY IS DISPLAY
