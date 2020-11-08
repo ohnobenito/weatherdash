@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- FONT -->
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet">
 
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -10,60 +12,51 @@
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
                 
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Manjari:wght@100;400;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="assets/css/style.css" />
     <title>Weather Dashboard</title>
     
 </head>
 <body>
-    <!-- Header-->
-    <header>
-        <h1 class="center-align">Weather Dashboard</h1>
-    </header>
+  <!-- Header-->
+  <div class="nav-wrapper">
+      <h3 id="head">Weather Dashboard</h3>
+  </div>
 
-    <!-- Search Bar-->
-    <div class="container">
-      <div class="row">
-        <div class="col s3" id="search-bar">
-            <label for="search">Search Cities</label><br>
-            <div class="input-field inline">
-              <input type="text" id="search-term" name="search-term">
-              <button id="search-btn">SEARCH</button><br><br>
-            </div>
-              <!-- place previous search requests here-->
-                <div class="row">
-                  <div class="col s3">
-                    <ul id="past-search"></ul>
-                  </div>
-                </div>         
-        </div>
-  
-        <!-- Place current weather in this div-->
-        <div class="col s7 offset-s2">
-           <div id="current-weather"></div>  
-        </div>
+  <!-- Search Bar-->
+  <div class="container" id="main">
+    <div class="row">
+      <div class="col s3" id="search-bar">
+          <label for="search">Search Cities</label><br>
+          <div class="input-field inline">
+            <input type="text" id="search-term" name="search-term">
+            <button id="search-btn" type="submit" value="submit">SEARCH</button><br><br>
+          </div>
+            <!-- place previous search requests here-->
+              <div class="row">
+                <div class="col s3">
+                  <ul id="past-search"></ul>
+                </div>
+              </div>         
       </div>
-      <div class="row">
-        <!-- Place five day forcast here-->
-          <div id="five-day"></div>
-      </div>
-    
-    
-    
-  
-    
-    
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/java/script.js"></script>
-    
+      <!-- Place current weather in this div-->
+      <div class="col s7 offset-s2">
+         <div id="current-weather"></div>  
+      </div>
+    </div>
+  </div>
+  <section id="fivedaysect">
+    <div class="row">
+      <h3>5 Day Forecast</h3>
+      <!-- Place five day forcast here-->
+      <div class="col s11 offset-s1">
+        <div id="five-day"></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="assets/java/script.js"></script>
+  
 </body>
 </html>
