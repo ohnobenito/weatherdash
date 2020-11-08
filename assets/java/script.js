@@ -1,9 +1,29 @@
 
-pageLoad();
+//ADDED FUNCTION TO CHECK IF CODE HAS RUN, 
+window.onload = function() {
+    //IF FIRST LAUNCH DISPLAY MINNEAPOLIS WEATHER
+    if (localStorage.getItem("hasCodeRunBefore") === null) {
+        displayWeather("Minneapolis");
+        localStorage.setItem("hasCodeRunBefore", true);
+        //IF NOT, LAUNCH PAGELOAD FUNCTION
+    } else pageLoad();
+}
+
 
 //WHEN SEARCH BUTTON IS CLICKED
 $("#search-btn").on("click", function(){
-    //event.preventDefault();
+    launch();
+});
+//WHEN ENTER KEY IS CLICKED AFTER INPUT ADDED TO SEACH
+$("#search-term").on("keyup", function(event){
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        launch();
+        $("#search-btn").on("click");
+    }
+});
+// FUNCTION OF WHAT TO RUN IF SEARCH IS CLICKED/ENTERED
+function launch() {
     let searchResult = $("#search-term").val();
     searchResults.push(searchResult);
     localStorage.setItem('searchResult', JSON.stringify(searchResult));
@@ -17,10 +37,9 @@ $("#search-btn").on("click", function(){
     //clear search bar
     $("#search-term").val("");  
     pageLoad();
-});
+}
 
-
-//LOADS WEATHER TO PAGE PULL
+//LOADS WEATHER TO PAGE 
 function displayWeather(city) {
     
     let apiKey = "&appid=663280f624e2f9932dc29f35de7ca316";
@@ -49,8 +68,10 @@ function displayWeather(city) {
             let h1 = $("<h3>").text(name);  
             weatherDiv.append(h1);
 
-            let dateP = $("<p>").text("Date: " + d);
+            let dateP = $("<p>").text(d);
             weatherDiv.append(dateP);
+            let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png").append($("<br />"));
+            weatherDiv.append(iconIm);
             temp = Math.floor(temp);
             let pOne = $("<p>").text("Temp: " + temp + "°F");
             weatherDiv.append(pOne);
@@ -62,8 +83,7 @@ function displayWeather(city) {
             let pThree = $("<p>").text("Wind Speed: " + wind + " MPH");
             weatherDiv.append(pThree);
 
-            let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png").append($("<br />"));
-            weatherDiv.append(iconIm);
+            
             
 
             $("#current-weather").html(weatherDiv);
@@ -135,9 +155,10 @@ function fiveDay(lat,lon,apiKey) {
             let icon5 = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + weathericon + ".png");
         
             forecastDiv.append(foreDate);
+            forecastDiv.append(icon5);
             forecastDiv.append(foreTemp);
             forecastDiv.append(foreHum);
-            forecastDiv.append(icon5);
+            
             $("#five-day").append(forecastDiv);     
         };
     }); 
@@ -171,6 +192,6 @@ $(document).on("click", ".past-search-btn", function(event) {
 //WHEN PAGE IS OPENED, LAST SEARCHED CITY IS DISPLAYED
 function pageLoad() {
     let searchResult = JSON.parse(localStorage.getItem("searchResult"));
-    console.log(searchResult);
+    //console.log(searchResult);
     displayWeather(searchResult);
 };
