@@ -1,7 +1,7 @@
 # **WEATHER DASHBOARD** #
 
 
-**LINK:** https://ohnobenito.github.io/weatherdashboard
+**LINK:** https://ohnobenito.github.io/weatherdash
 
 **SCREEN SHOT OF DEPLOYED PAGE:**
 ![](/assets/images/ss1.png)
