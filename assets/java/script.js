@@ -72,7 +72,7 @@ function displayWeather(city) {
             //FOR UV INDEX
             let lat = response.coord.lat;
             let lon = response.coord.lon;
-            let UVqueryUrl= "http://api.openweathermap.org/data/2.5/uvi?lat="+ lat + "&lon=" + lon + "&units=imperial" + apiKey;
+            let UVqueryUrl= "https://api.openweathermap.org/data/2.5/uvi?lat="+ lat + "&lon=" + lon + "&units=imperial" + apiKey;
 
             $.ajax({
             url: UVqueryUrl,
