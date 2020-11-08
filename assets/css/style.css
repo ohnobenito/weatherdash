@@ -46,6 +46,7 @@ h3 {
 }
 .card {
     margin: 5px;
+    text-align: center;
 }
 #main {
     padding-top: 10px;
