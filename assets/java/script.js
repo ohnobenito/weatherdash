@@ -40,10 +40,12 @@ function displayWeather(city) {
             let humidity = response.main.humidity;
             let wind = response.wind.speed;
             let icon = response.weather[0].icon;
+            console.log(icon);
             let d = new Date(response.dt * 1000).toDateString();
 
             // BUILDING THE DIV
             let weatherDiv = $("<div class='col s12'>");
+            weatherDiv.addClass("card white");
             let h1 = $("<h3>").text(name);  
             weatherDiv.append(h1);
 
@@ -60,8 +62,9 @@ function displayWeather(city) {
             let pThree = $("<p>").text("Wind Speed: " + wind + " MPH");
             weatherDiv.append(pThree);
 
-            let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/w/" + icon + ".png").append($("<br />"));
+            let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png").append($("<br />"));
             weatherDiv.append(iconIm);
+            
 
             $("#current-weather").html(weatherDiv);
 
@@ -100,9 +103,9 @@ function displayWeather(city) {
     });
 };
 
+//FIVE DAY FORECAST
 function fiveDay(lat,lon,apiKey) {
-        // FIVE DAY FORECAST
-        //WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
+        
 
         let fiveQueryUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,current&units=imperial" + apiKey;
     
@@ -123,12 +126,13 @@ function fiveDay(lat,lon,apiKey) {
             let weathericon = input[i].weather[0].icon;
             
 
-            let forecastDiv = $("<div class='col s2'>")
+            let forecastDiv = $("<div class='card'>");
+            forecastDiv.addClass("col s2");
             let foreDate = $("<h5>").text(dateF);
             tempF = Math.floor(tempF);
             let foreTemp = $("<p>").text("Temp: " + tempF + "°F");
             let foreHum = $("<p>").text("Humidity: " + humidityF + "%");
-            let icon5 = $("<img>").attr("src", "https://openweathermap.org/img/w/" + weathericon + ".png");
+            let icon5 = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + weathericon + ".png");
         
             forecastDiv.append(foreDate);
             forecastDiv.append(foreTemp);
@@ -148,7 +152,7 @@ function pastSearch() {
     $("#past-search").empty();
 
     for (let i = 0; i < searchResults.length; i++) {
-        let a = $("<button>");
+        let a = $("<a class='btn-small blue'>");
         a.addClass("past-search-btn");
         a.attr("data-name", searchResults[i]);
         a.text(searchResults[i]);
