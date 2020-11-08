@@ -1,0 +1,52 @@
+/* CSS HEX 
+--terra-cotta: #ed6a5aff;
+--linen: #ffeddfff;
+--black-coffee: #362c28ff;
+--celtic-blue: #266dd3ff;
+--air-superiority-blue: #669bbcff;*/
+
+html {
+    margin: 0px;
+}
+body {
+    font-family: 'Comfortaa', cursive;
+    margin: 0;
+    background-color: yellow;
+    
+}
+.nav-wrapper {
+    background-color: #ed6a5aff;
+    color: #362c28;
+    border-bottom: 2px solid #362c28;
+    top: 0;
+    padding: 5px;
+}
+#head {
+    margin: 0;
+}
+
+.past-search-btn {
+    color: black;
+}
+#current-weather{
+    text-align: center;
+}
+#search-btn {
+    color: black;
+}
+
+h3 {
+    text-align: center;
+}
+#fivedaysect {
+    background-color: #266dd3;
+    border-top: 2px #362c28 solid;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+}
+.card {
+    margin: 5px;
+}
+#main {
+    padding-top: 10px;
+}
