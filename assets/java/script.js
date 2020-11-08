@@ -1,24 +1,28 @@
 
+pageLoad();
 
 //WHEN SEARCH BUTTON IS CLICKED
-$("#search-btn").on("click", function(event){
-    event.preventDefault();
+$("#search-btn").on("click", function(){
+    //event.preventDefault();
     let searchResult = $("#search-term").val();
     searchResults.push(searchResult);
-    
+    localStorage.setItem('searchResult', JSON.stringify(searchResult));
+    console.log(localStorage);
     
     //run display weather function
-    displayWeather();
+    displayWeather(searchResult);
     // runs past search function
     pastSearch(); 
 
     //clear search bar
     $("#search-term").val("");  
+    pageLoad();
 });
 
-//LOADS WEATHER TO PAGE
-function displayWeather() {
-    let city = $("#search-term").val();
+
+//LOADS WEATHER TO PAGE PULL
+function displayWeather(city) {
+    
     let apiKey = "&appid=663280f624e2f9932dc29f35de7ca316";
     let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial"+ apiKey;
     
@@ -27,9 +31,9 @@ function displayWeather() {
         url: queryUrl,
         method: "GET"
     }).then(function (response) {
-        console.log(response)
+
         $("#current-weather").empty();
-        //RESPONSE RESULTS
+            //RESPONSE RESULTS
             
             let name = response.name;
             let temp = (response.main.temp)
@@ -38,40 +42,40 @@ function displayWeather() {
             let icon = response.weather[0].icon;
             let d = new Date(response.dt * 1000).toDateString();
 
-        // BUILDING THE DIV
-        let weatherDiv = $("<div class='col s12'>");
-        let h1 = $("<h3>").text(name);  
-        weatherDiv.append(h1);
+            // BUILDING THE DIV
+            let weatherDiv = $("<div class='col s12'>");
+            let h1 = $("<h3>").text(name);  
+            weatherDiv.append(h1);
 
-        let dateP = $("<p>").text("Date: " + d);
-        weatherDiv.append(dateP);
-        temp = Math.floor(temp);
-        let pOne = $("<p>").text("Temp: " + temp + "°F");
-        weatherDiv.append(pOne);
+            let dateP = $("<p>").text("Date: " + d);
+            weatherDiv.append(dateP);
+            temp = Math.floor(temp);
+            let pOne = $("<p>").text("Temp: " + temp + "°F");
+            weatherDiv.append(pOne);
 
-        let pTwo = $("<p>").text("Humidity: " + humidity + "%");
-        weatherDiv.append(pTwo);
+            let pTwo = $("<p>").text("Humidity: " + humidity + "%");
+            weatherDiv.append(pTwo);
 
-        wind = Math.floor(wind);
-        let pThree = $("<p>").text("Wind Speed: " + wind + " MPH");
-        weatherDiv.append(pThree);
+            wind = Math.floor(wind);
+            let pThree = $("<p>").text("Wind Speed: " + wind + " MPH");
+            weatherDiv.append(pThree);
 
-        let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/w/" + icon + ".png").append($("<br />"));
-        weatherDiv.append(iconIm);
+            let iconIm = $("<img>").attr("src", "https://openweathermap.org/img/w/" + icon + ".png").append($("<br />"));
+            weatherDiv.append(iconIm);
 
-        $("#current-weather").html(weatherDiv);
+            $("#current-weather").html(weatherDiv);
 
 
-        //FOR UV INDEX
-        let lat = response.coord.lat;
-        let lon = response.coord.lon;
-        let UVqueryUrl= "http://api.openweathermap.org/data/2.5/uvi?lat="+ lat + "&lon=" + lon + "&units=imperial" + apiKey;
+            //FOR UV INDEX
+            let lat = response.coord.lat;
+            let lon = response.coord.lon;
+            let UVqueryUrl= "http://api.openweathermap.org/data/2.5/uvi?lat="+ lat + "&lon=" + lon + "&units=imperial" + apiKey;
 
-        $.ajax({
+            $.ajax({
             url: UVqueryUrl,
             method: "GET"
-        }).then(function(response){
-            console.log(response)
+            }).then(function(response){
+           // console.log(response)
 
             //UV INDEX TO WEATHER DIV
             
@@ -91,20 +95,22 @@ function displayWeather() {
                 let buttonP = $("<p>").append(uvIndex);
                 weatherDiv.append(buttonP);
             }
-            
+            fiveDay(lat,lon,apiKey);
         });
-    
+    });
+};
 
+function fiveDay(lat,lon,apiKey) {
         // FIVE DAY FORECAST
         //WHEN SEARCH BUTTON IS CLICKED ADD 5 DAY FORECAST TO "five-day" DIV: DATE, ICONS OF WEATHER, TEMP & HUMIDITY
 
         let fiveQueryUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,current&units=imperial" + apiKey;
     
-        $.ajax({
-        url: fiveQueryUrl,
-        method: "GET"
-        }).then(function(response) {
-        console.log(response);
+    $.ajax({
+    url: fiveQueryUrl,
+    method: "GET"
+    }).then(function(response) {
+        //console.log(response);
 
         let input = response.daily
     
@@ -115,9 +121,7 @@ function displayWeather() {
             let humidityF = input[i].humidity;
             let dateF = new Date(input[i].dt * 1000).toDateString();
             let weathericon = input[i].weather[0].icon;
-            console.log(weathericon);
-            console.log(dateF);
-            console.log(tempF);
+            
 
             let forecastDiv = $("<div class='col s2'>")
             let foreDate = $("<h5>").text(dateF);
@@ -130,12 +134,10 @@ function displayWeather() {
             forecastDiv.append(foreTemp);
             forecastDiv.append(foreHum);
             forecastDiv.append(icon5);
-            $("#five-day").append(forecastDiv);
-            
-             };
-        }); 
+            $("#five-day").append(forecastDiv);     
+        };
     }); 
-}; 
+};  
 
 //ADD SEARCH RESULTS TO ONGOING "past-search" DIV
 
@@ -150,16 +152,21 @@ function pastSearch() {
         a.addClass("past-search-btn");
         a.attr("data-name", searchResults[i]);
         a.text(searchResults[i]);
-        $("#past-search").append(a);
+        $("#past-search").prepend(a);
     }   
 }
 
 //CITY BUTTONS CLICKED = WEATHER LOADS AGAIN
 $(document).on("click", ".past-search-btn", function(event) {
     event.preventDefault();
-    alert("help!")
     console.log($(this).text());
+    displayWeather($(this).text());
 })
 
 
-//WHEN PAGE IS OPENED, LAST SEARCHED CITY IS DISPLAY
+//WHEN PAGE IS OPENED, LAST SEARCHED CITY IS DISPLAYED
+function pageLoad() {
+    let searchResult = JSON.parse(localStorage.getItem("searchResult"));
+    console.log(searchResult);
+    displayWeather(searchResult);
+};
